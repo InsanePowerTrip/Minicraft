@@ -102,24 +102,33 @@ void drawCube(){
 void drawFPS(double fps) {
     char buf[64];
     sprintf(buf, "FPS: %.1f", fps);
-    // Generate quads at (10,20) with origin assumed top-left by our flipped ortho
     char verts[9999];
-    int quads = stb_easy_font_print(
-        10, 20,       // 10px right, 20px down from top-left
-        buf, NULL, verts, sizeof(verts)
-    );
+    int quads = stb_easy_font_print(0, 0, buf, NULL, verts, sizeof(verts));
 
-    // Set up an ortho where Y goes downwards from the top
+    // Calculate scale based on window height
+    // Base height (20px) corresponds to scale 1.0
+    // Scale linearly between minScale and maxScale
+    float baseFontHeight = 20.0f;
+    float minScale = 0.5f;
+    float maxScale = 2.5f;
+    float scale = (float)windowHeight / 600.0f; // 600 is your base window height
+    if (scale < minScale) scale = minScale;
+    if (scale > maxScale) scale = maxScale;
+
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
       glLoadIdentity();
-      gluOrtho2D(0, windowWidth, windowHeight, 0);  // note: top=0, bottom=windowHeight
+      gluOrtho2D(0, windowWidth, windowHeight, 0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
       glLoadIdentity();
 
+      // Apply scaling about top-left corner
+      glTranslatef(10.0f, 20.0f * scale, 0.0f);
+      glScalef(scale, scale, 1.0f);
+
       glDisable(GL_TEXTURE_2D);
-      glColor3f(1,1,1);
+      glColor3f(1, 1, 1);
       glEnableClientState(GL_VERTEX_ARRAY);
       glVertexPointer(2, GL_FLOAT, 16, verts);
       glDrawArrays(GL_QUADS, 0, quads * 4);
@@ -131,6 +140,7 @@ void drawFPS(double fps) {
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
 }
+
 int main(){
     if(!glfwInit())return -1;
     GLFWwindow* w=glfwCreateWindow(windowWidth,windowHeight,
