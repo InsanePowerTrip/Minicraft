@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GLFW/glfw3.h>
+#include "glfw3.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -134,7 +134,7 @@ void drawFPS(double fps) {
 int main(){
     if(!glfwInit())return -1;
     GLFWwindow* w=glfwCreateWindow(windowWidth,windowHeight,
-                                   "Clean Fix",NULL,NULL);
+                                   "Minicraft",NULL,NULL);
     if(!w){ glfwTerminate(); return -1; }
     glfwMakeContextCurrent(w);
     glfwSetKeyCallback(w,key_callback);
