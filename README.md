@@ -8,4 +8,4 @@ Even though it says 50% C++, that is just libraries that I need for 3D rendering
 ## Download
 To download it, just click [this](https://github.com/InsanePowerTrip/Minicraft/releases/latest) and download Minicraft.zip
 
-Extract it in a folder and open "cube.exe" (or cube depending on your settings)
+Extract it in a folder and open "main.exe" (or main depending on your settings)
